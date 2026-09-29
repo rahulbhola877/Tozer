@@ -117,7 +117,7 @@ async function vLibrary() {
   }
   v.innerHTML = `
   <section class="box pad"><h2 class="pageh">Library</h2><p class="note" style="margin-top:6px">Everything here is Tozer's own writing and in the public domain in the United States.</p>
-    <form class="ctl" id="libF" style="margin-top:14px"><input type="search" id="libQ" placeholder="Filter titles: prayer, worship, the cross…" value="${esc(S.lib.q)}" aria-label="Filter titles"><button class="btn">Filter</button></form></section>
+    <form class="ctl" id="libF" style="margin-top:14px"><input type="search" id="libQ" placeholder="Filter titles…" value="${esc(S.lib.q)}" aria-label="Filter titles"><button class="btn">Filter</button></form></section>
   ${books.length ? `<section class="box"><div class="sechead"><span class="label">Books</span></div>${books.map((w) => { const rd = (p[w.id] || { done: [] }).done.length; return `<button class="lrow" data-open="${w.id}"><span><b>${esc(w.title)}</b><small>${esc(w.year)} · ${w.n} chapters${rd ? ` · ${rd} read` : ""}</small><span class="desc">${esc(w.desc || "")}</span></span><span class="go">Open →</span></button>`; }).join("")}</section>` : ""}
   ${eds.length ? `<section class="box"><div class="sechead"><span class="label">Editorials · ${total}</span><p class="note" style="margin-top:4px">Written while Tozer edited The Alliance Weekly (1950–57) and The Alliance Witness (1958–63): the editorials he signed “A. W. T.”, the unsigned “Editorial Voice” pieces he wrote as editor, and articles under his name.</p></div>${edHTML}</section>` : ""}`;
   $("#libF").onsubmit = (e) => { e.preventDefault(); S.lib.q = $("#libQ").value; vLibrary(); };
@@ -152,9 +152,11 @@ async function vReader() {
   }
   const kept = L.get("keep", []).filter((k) => k.id === w.id && k.ch === S.rd.ch).map((k) => k.pi);
   const prev = S.rd.ch > 0 ? d.chapters[S.rd.ch - 1] : null, next = S.rd.ch < n - 1 ? d.chapters[S.rd.ch + 1] : null;
+  const tipOn = !L.get("tipSeen", false);
   v.innerHTML = `${rbar(ed ? c.t : w.title)}
-  <article class="box"><div class="doc" id="doc">
-    <div class="label dlabel">${esc(ed ? (c.m || (+c.d.slice(0, 4) >= 1958 ? "The Alliance Witness" : "The Alliance Weekly")) + " · " + fmtDate(c.d) : (c.b ? c.b + " · " : "") + "A. W. Tozer")}</div>
+  ${tipOn ? `<div class="tip" id="tip"><span>Tap any word to see what it means or translate it. Tap a Bible reference to read the verse.</span><button id="tipX">Got it</button></div>` : ""}
+  <article class="box"><div class="prog" aria-hidden="true"><i style="width:${Math.round(((S.rd.ch + 1) / n) * 100)}%"></i></div><div class="doc" id="doc">
+    <div class="label dlabel">${esc(ed ? (c.m || (+c.d.slice(0, 4) >= 1958 ? "The Alliance Witness" : "The Alliance Weekly")) + " · " + fmtDate(c.d) + " · " + (S.rd.ch + 1) + " of " + n : (c.b ? c.b + " · " : "") + "A. W. Tozer · " + (S.rd.ch + 1) + " of " + n)}</div>
     <h2>${esc(c.t)}</h2>
     ${c.p.map((p, i) => { const q = p.startsWith("> "); return `<p data-pi="${i}" class="${q ? "q" : ""}${kept.includes(i) ? " kept" : ""}">${linkRefs(esc(q ? p.slice(2) : p))}</p>`; }).join("")}
     ${ed ? `<p class="src">${c.k === "article" ? "Article by A. W. Tozer." : c.s ? "Signed “A. W. T.”" : "Unsigned editorial, from the page Tozer wrote as editor."} ${c.pg ? `Page ${c.pg} of the issue. ` : ""}Taken from the magazine scan; if a word looks wrong, it may be a scanning error.</p>` : ""}
@@ -162,6 +164,7 @@ async function vReader() {
   <div class="pager">${prev ? `<button id="pPrev"><small>← Previous</small><span>${esc(prev.t)}</span></button>` : "<span></span>"}${next ? `<button id="pNext"><small>Next →</small><span>${esc(next.t)}</span></button>` : "<span></span>"}</div></article>`;
   bindBar(w, d);
   bindText($("#doc"), { id: w.id, ch: S.rd.ch, title: c.t, work: w.title });
+  const tx = $("#tipX"); if (tx) tx.onclick = () => { L.set("tipSeen", true); $("#tip").remove(); };
   if (prev) $("#pPrev").onclick = () => { S.rd.ch--; vReader(); scrollTo(0, 0); };
   if (next) $("#pNext").onclick = () => { S.rd.ch++; vReader(); scrollTo(0, 0); };
   markRead(w.id, S.rd.ch);
@@ -264,8 +267,18 @@ function candidates(raw) {
   return out;
 }
 async function lookup(raw) {
-  for (const c of candidates(raw)) { try { const ch = await dictChunk(c); if (ch[c]) return { ...ch[c], word: c }; } catch (e) {} }
-  return null;
+  const cs = candidates(raw); let first = null;
+  for (const c of cs) {
+    try {
+      const ch = await dictChunk(c);
+      if (!ch[c]) continue;
+      const e = { ...ch[c], word: c };
+      // "has", "loveth", "spake": a bare inflection note is not a meaning, so also look up the base word
+      if (!first) { first = e; if ((!e.n || !e.n.length) && e.w && e.w.length < 90 && cs.length > 1) continue; else if (IRREG[raw.toLowerCase()] || !e.n) { const base = IRREG[raw.toLowerCase()]; if (base && base !== c) { try { const bc = await dictChunk(base); if (bc[base]) return { ...bc[base], word: base, from: raw }; } catch (x) {} } } return e; }
+      return e.n ? e : first;
+    } catch (e) {}
+  }
+  return first;
 }
 async function easton(raw) {
   const k = raw.toLowerCase(), l = /^[a-z]/.test(k) ? k[0] : "_";
@@ -319,10 +332,11 @@ function openSheet(title, bodyHTML, onClose) {
   const close = () => { closeSheet(); onClose && onClose(); };
   $("#scrim").onclick = close; $("#sx").onclick = close;
   document.addEventListener("keydown", escClose);
+  document.body.classList.add("locked");
   $("#sx").focus({ preventScroll: true });
 }
 function escClose(e) { if (e.key === "Escape") closeSheet(); }
-function closeSheet() { $("#sheetRoot").innerHTML = ""; clearHighlight(); document.removeEventListener("keydown", escClose); }
+function closeSheet() { document.body.classList.remove("locked"); $("#sheetRoot").innerHTML = ""; clearHighlight(); document.removeEventListener("keydown", escClose); }
 
 async function openWord(word, ctx) {
   const lang = defaultLang();
@@ -363,8 +377,9 @@ async function openWord(word, ctx) {
   const box = $("#sDef"); if (!box) return;
   if (!e) box.innerHTML = `<span class="label">Meaning</span><p class="long">No entry for “${esc(word)}”. It may be a name, an old spelling, or a scanning error.</p>`;
   else {
-    const senses = (e.n || []).slice(0, 5);
-    box.innerHTML = `<span class="label">Meaning${e.word !== word.toLowerCase() ? ` · from “${esc(e.word)}”` : ""}</span>
+    const verbish = e.from || /(eth|est|ed|ing)$/i.test(word) || Object.prototype.hasOwnProperty.call(IRREG, word.toLowerCase());
+    const senses = (verbish ? [...(e.n || [])].sort((x, y) => (y[0] === "v") - (x[0] === "v")) : (e.n || [])).slice(0, 5);
+    box.innerHTML = `<span class="label">Meaning${e.word !== word.toLowerCase() ? ` · “${esc(word)}” is a form of “${esc(e.word)}”` : ""}</span>
       ${senses.map((s, i) => `<div class="sense"><i>${i + 1}</i><div><em>${posName(s[0])}</em> ${esc(stripEx(s[1]))}${s[2] && s[2].length ? `<div class="syn">Also: ${esc(s[2].join(", "))}</div>` : ""}</div></div>`).join("")}
       ${e.w ? `<details style="margin-top:12px" ${senses.length ? "" : "open"}><summary class="label" style="cursor:pointer">Webster's 1913 · as Tozer's generation knew it</summary><p class="long">${esc(webClean(e.w))}</p></details>` : ""}`;
   }
@@ -394,7 +409,7 @@ async function vBible() {
   const seg = `<div class="seg"><button data-ver="kjv" aria-pressed="${bb.ver === "kjv"}">King James</button><button data-ver="web" aria-pressed="${bb.ver === "web"}">World English</button></div>`;
   if (!bb.book || (!bb.ch && !bb.pick)) {
     v.innerHTML = `<section class="box pad stack" style="gap:14px"><div><h2 class="pageh">Bible</h2><p class="note" style="margin-top:6px">Tozer quoted the King James Version. The World English Bible is a modern public-domain translation.</p></div>${seg}
-      <form class="ctl" id="bgo"><input type="search" id="bref" placeholder="Go to: John 15, Psalm 63:8, Rom 8:28" aria-label="Go to a passage"><button class="btn">Go</button></form></section>
+      <form class="ctl" id="bgo"><input type="search" id="bref" placeholder="Go to: John 15 or Rom 8:28" aria-label="Go to a passage"><button class="btn">Go</button></form></section>
       <section class="box"><div class="sechead"><span class="label">Old Testament</span></div><div class="grid">${B.slice(0, 39).map(([c, n]) => `<button data-bk="${c}">${esc(n)}</button>`).join("")}</div></section>
       <section class="box"><div class="sechead"><span class="label">New Testament</span></div><div class="grid">${B.slice(39).map(([c, n]) => `<button data-bk="${c}">${esc(n)}</button>`).join("")}</div></section>`;
     bindVer();
@@ -461,7 +476,7 @@ function snippet(text, q) {
 async function vSearch() {
   const v = $("#view"), s = S.search;
   v.innerHTML = `<section class="box pad stack" style="gap:14px"><div><h2 class="pageh">Search</h2><p class="note" style="margin-top:6px">Every word Tozer wrote here, or the whole Bible.</p></div>
-    <form class="ctl" id="sf"><input type="search" id="sq" value="${esc(s.q)}" placeholder="the gaze of the soul, worship, self-sins…" aria-label="Search text"><button class="btn primary">Search</button></form>
+    <form class="ctl" id="sf"><input type="search" id="sq" value="${esc(s.q)}" placeholder="worship, the cross, humility…" aria-label="Search text"><button class="btn primary">Search</button></form>
     <div class="seg"><button data-sc="tozer" aria-pressed="${s.scope === "tozer"}">Tozer</button><button data-sc="bible" aria-pressed="${s.scope === "bible"}">Bible (${S.bible.ver.toUpperCase()})</button></div></section>
     <section class="box" id="sres">${s.res ? s.res : `<div class="empty">Try a phrase: “prevenient grace”, “the old cross”, “worship”.</div>`}</section>`;
   $$("[data-sc]").forEach((b) => (b.onclick = () => { s.scope = b.dataset.sc; s.res = null; if (s.q) runSearch(); else vSearch(); }));
@@ -494,7 +509,7 @@ async function vWords() {
   const v = $("#view"), saved = L.get("saved", []), recent = L.get("recent", []), keep = L.get("keep", []), lang = defaultLang();
   v.innerHTML = `
   <section class="box pad stack" style="gap:12px"><div><h2 class="pageh">Words</h2><p class="note" style="margin-top:6px">Look up any word, or translate a passage. Tap a word while reading and it comes here too.</p></div>
-    <form class="ctl" id="wf"><input type="search" id="wq" placeholder="Look up a word: sanctify, numinous, abide…" aria-label="Look up a word"><button class="btn primary">Look up</button></form></section>
+    <form class="ctl" id="wf"><input type="search" id="wq" placeholder="Look up a word…" aria-label="Look up a word"><button class="btn primary">Look up</button></form></section>
   <section class="box pad stack" style="gap:12px"><div class="spread"><span class="label">Translator</span>${langSelect("tLang", lang)}</div>
     <textarea id="tIn" aria-label="Text to translate" placeholder="Paste or type English here"></textarea>
     <div class="row"><button class="btn primary" id="tGo">Translate</button>${SAMPLE ? `<button class="btn" id="tPlain">Plain English</button>` : ""}</div><div id="tOut"></div></section>

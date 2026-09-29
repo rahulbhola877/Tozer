@@ -1,8 +1,8 @@
 <div class="wrap" lang="en">
   <header class="head">
     <div class="brand">
-      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="var(--accent)"/><path d="M15 15H49V25H44V21H36V47H41V52H23V47H28V21H20V25H15Z" fill="var(--accent-ink)"/></svg>
-      <div><h1>Tozer</h1><small>His public-domain writings, the Bible, and a dictionary</small></div>
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="var(--accent)"/><path d="M11 14H53V30H47V21H37V45H43V50H21V45H27V21H17V30H11Z" fill="var(--accent-ink)"/></svg>
+      <div><h1>Tozer</h1><small>Public-domain writings, Bible and dictionary</small></div>
     </div>
     <button class="hbtn" id="themeBtn" aria-label="Colour theme"><span class="tdot" aria-hidden="true"></span><span id="themeLbl">Auto</span></button>
   </header>
@@ -13,7 +13,7 @@
     <button class="tab" role="tab" data-v="search" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="4" width="11" height="11"/><path d="M14 14l6 6"/></svg><span>Search</span></button>
     <button class="tab" role="tab" data-v="words" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 19 10 5h1l5 14M7 14h7"/><path d="M17 5h4M19 5v4"/></svg><span>Words</span></button>
   </nav>
-  <main id="view" class="stack" aria-live="polite"></main>
+  <main id="view" class="stack" tabindex="-1"></main>
   <footer class="foot" id="foot"></footer>
 </div>
 <div id="sheetRoot"></div>

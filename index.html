@@ -12,15 +12,15 @@
 <title>Tozer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Libre+Caslon+Display&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Young+Serif&display=swap">
 <style>
 /* Layout: a boxed reading desk. Hard 1px rules, no radius; one column for reading, a sheet for words. */
 :root{
   --paper:#F1F1EE; --card:#FBFBF9; --ink:#16171A; --ink2:#2A2C30; --muted:#595B61; --rule:#1E2024; --hair:#D3D3CE;
   --accent:#A11D21; --accent-ink:#FFFFFF; --accent-soft:#F4E1DF; --mark:#F3E3A2; --link:#8E1A1E;
-  --display:"Libre Caslon Display","Libre Caslon Text",Georgia,"Times New Roman",serif;
-  --serif:"Source Serif 4","Source Serif Pro",Georgia,"Times New Roman",serif;
-  --ui:"Archivo","Helvetica Neue",Arial,system-ui,sans-serif;
+  --display:"Young Serif","Libre Caslon Text",Georgia,"Times New Roman",serif;
+  --serif:"Literata","Source Serif 4",Georgia,"Times New Roman",serif;
+  --ui:"Instrument Sans","Helvetica Neue",Arial,system-ui,sans-serif;
   --rs:1;
   color-scheme:light;
 }
@@ -44,7 +44,7 @@ a{color:var(--link)}
 .head{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{display:flex;align-items:center;gap:12px;min-width:0}
 .logo{width:40px;height:40px;flex:none}
-.brand h1{font-family:var(--display);font-weight:400;font-size:34px;line-height:1;letter-spacing:.005em}
+.brand h1{font-family:var(--display);font-weight:400;font-size:32px;line-height:1;letter-spacing:0}
 .brand small{display:block;font-size:12.5px;color:var(--muted);margin-top:4px;letter-spacing:.01em}
 .hbtn{border:1px solid var(--rule);background:var(--card);min-height:40px;padding:0 12px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px}
 .hbtn:hover{background:var(--accent-soft)}
@@ -64,7 +64,7 @@ a{color:var(--link)}
 .box>*+*{border-top:1px solid var(--hair)}
 .label{font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .label.red{color:var(--accent)}
-.pageh{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.1;text-wrap:balance}
+.pageh{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.15;text-wrap:balance}
 .lede{font-family:var(--serif);font-size:17px;line-height:1.55;color:var(--ink2)}
 .note{font-size:13.5px;color:var(--muted)}
 .stack{display:flex;flex-direction:column;gap:18px}
@@ -100,9 +100,9 @@ select{width:auto;min-width:0}
 
 /* hero (today) */
 .hero .kicker{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-.hero h2{font-family:var(--display);font-weight:400;font-size:32px;line-height:1.12;margin-top:10px;text-wrap:balance}
+.hero h2{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.15;margin-top:10px;text-wrap:balance}
 .hero .ex{font-family:var(--serif);font-size:19px;line-height:1.6;margin-top:14px;color:var(--ink2)}
-.wod b{font-family:var(--display);font-weight:400;font-size:28px}
+.wod b{font-family:var(--display);font-weight:400;font-size:26px}
 .wod .pos{font-style:italic;color:var(--muted);font-family:var(--serif)}
 
 /* reader */
@@ -115,8 +115,8 @@ select{width:auto;min-width:0}
 .rbar .ic{width:50px;padding:0;font-size:18px}
 .doc{padding:30px 34px 34px}
 .doc .dlabel{margin-bottom:8px}
-.doc h2{font-family:var(--display);font-weight:400;font-size:calc(31px * var(--rs));line-height:1.15;margin-bottom:22px;text-wrap:balance}
-.doc p{font-family:var(--serif);font-size:calc(19px * var(--rs));line-height:1.72;margin:0 0 1.05em;hanging-punctuation:first}
+.doc h2{font-family:var(--display);font-weight:400;font-size:calc(29px * var(--rs));line-height:1.18;margin-bottom:22px;text-wrap:balance}
+.doc p{font-family:var(--serif);font-size:calc(18.5px * var(--rs));line-height:1.7;margin:0 0 1.05em;hanging-punctuation:first}
 .doc p.q{font-style:italic;color:var(--ink2);padding-left:1.1em;border-left:3px solid var(--accent);white-space:pre-line}
 .doc p.kept{background:var(--mark);box-shadow:0 0 0 6px var(--mark)}
 .doc .sref{color:var(--link);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;cursor:pointer}
@@ -163,7 +163,7 @@ select{width:auto;min-width:0}
 @media (min-width:900px){.sheet{top:16px;right:16px;bottom:16px;width:420px}}
 @media (max-width:899px){.sheet{left:0;right:0;bottom:0;max-height:82vh;border-width:1px 0 0;padding-bottom:env(safe-area-inset-bottom,0px)}}
 .shead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 20px;border-bottom:1px solid var(--rule)}
-.shead h3{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.1;word-break:break-word}
+.shead h3{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.1;word-break:break-word}
 .shead .x{border:1px solid var(--rule);background:var(--card);width:42px;height:42px;font-size:20px;flex:none}
 .sbody{overflow:auto;-webkit-overflow-scrolling:touch}
 .sbody>section{padding:16px 20px;border-bottom:1px solid var(--hair)}
@@ -191,7 +191,8 @@ select{width:auto;min-width:0}
 /* phones */
 @media (max-width:699px){
   body{padding-block:14px calc(92px + env(safe-area-inset-bottom,0px))}
-  .brand h1{font-size:30px}
+  .brand h1{font-size:28px}
+  .brand small{display:none}
   .logo{width:34px;height:34px}
   .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;border-width:1px 0 0;padding-bottom:env(safe-area-inset-bottom,0px)}
   .tab{flex-direction:column;gap:3px;font-size:11.5px;padding:8px 0 7px;min-height:58px}
@@ -199,17 +200,23 @@ select{width:auto;min-width:0}
   .tab[aria-selected="true"]{box-shadow:inset 0 3px 0 var(--accent)}
   .pad{padding:16px 18px}
   .doc{padding:24px 20px 26px}
-  .doc h2{font-size:calc(27px * var(--rs))}
+  .doc h2{font-size:calc(25px * var(--rs))}
   .doc p{font-size:calc(17.5px * var(--rs));line-height:1.64;text-align:justify;text-align-last:left;hyphens:auto;-webkit-hyphens:auto;text-wrap:pretty}
   .doc p.q,.vs p.poet{text-align:left}
-  .hero h2{font-size:27px}
+  .hero h2{font-size:25px}
   .hero .ex{font-size:17.5px;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
-  .pageh{font-size:26px}
+  .pageh{font-size:24px}
   .rbar .ic{width:44px}
   .rbar>button,.rbar>div{padding:0 10px}
   .erow{grid-template-columns:78px 1fr;padding:10px 18px}
   .lrow,.yr,.toc,.hit{padding-inline:18px}
 }
+.tip{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border:1px solid var(--rule);background:var(--accent-soft);padding:12px 14px;font-size:14px;line-height:1.45}
+.tip button{border:0;background:transparent;color:var(--accent);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;min-height:32px;padding:0 4px;text-decoration:underline;text-underline-offset:4px;flex:none}
+.prog{height:3px;background:var(--hair)}
+.prog i{display:block;height:100%;background:var(--accent)}
+.doc p{-webkit-tap-highlight-color:transparent}
+body.locked{overflow:hidden}
 </style>
 </head>
 <body>
@@ -218,8 +225,8 @@ select{width:auto;min-width:0}
 <div class="wrap" lang="en">
   <header class="head">
     <div class="brand">
-      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="var(--accent)"/><path d="M15 15H49V25H44V21H36V47H41V52H23V47H28V21H20V25H15Z" fill="var(--accent-ink)"/></svg>
-      <div><h1>Tozer</h1><small>His public-domain writings, the Bible, and a dictionary</small></div>
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="var(--accent)"/><path d="M11 14H53V30H47V21H37V45H43V50H21V45H27V21H17V30H11Z" fill="var(--accent-ink)"/></svg>
+      <div><h1>Tozer</h1><small>Public-domain writings, Bible and dictionary</small></div>
     </div>
     <button class="hbtn" id="themeBtn" aria-label="Colour theme"><span class="tdot" aria-hidden="true"></span><span id="themeLbl">Auto</span></button>
   </header>
@@ -230,7 +237,7 @@ select{width:auto;min-width:0}
     <button class="tab" role="tab" data-v="search" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="4" width="11" height="11"/><path d="M14 14l6 6"/></svg><span>Search</span></button>
     <button class="tab" role="tab" data-v="words" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 19 10 5h1l5 14M7 14h7"/><path d="M17 5h4M19 5v4"/></svg><span>Words</span></button>
   </nav>
-  <main id="view" class="stack" aria-live="polite"></main>
+  <main id="view" class="stack" tabindex="-1"></main>
   <footer class="foot" id="foot"></footer>
 </div>
 <div id="sheetRoot"></div>
@@ -355,7 +362,7 @@ async function vLibrary() {
   }
   v.innerHTML = `
   <section class="box pad"><h2 class="pageh">Library</h2><p class="note" style="margin-top:6px">Everything here is Tozer's own writing and in the public domain in the United States.</p>
-    <form class="ctl" id="libF" style="margin-top:14px"><input type="search" id="libQ" placeholder="Filter titles: prayer, worship, the cross…" value="${esc(S.lib.q)}" aria-label="Filter titles"><button class="btn">Filter</button></form></section>
+    <form class="ctl" id="libF" style="margin-top:14px"><input type="search" id="libQ" placeholder="Filter titles…" value="${esc(S.lib.q)}" aria-label="Filter titles"><button class="btn">Filter</button></form></section>
   ${books.length ? `<section class="box"><div class="sechead"><span class="label">Books</span></div>${books.map((w) => { const rd = (p[w.id] || { done: [] }).done.length; return `<button class="lrow" data-open="${w.id}"><span><b>${esc(w.title)}</b><small>${esc(w.year)} · ${w.n} chapters${rd ? ` · ${rd} read` : ""}</small><span class="desc">${esc(w.desc || "")}</span></span><span class="go">Open →</span></button>`; }).join("")}</section>` : ""}
   ${eds.length ? `<section class="box"><div class="sechead"><span class="label">Editorials · ${total}</span><p class="note" style="margin-top:4px">Written while Tozer edited The Alliance Weekly (1950–57) and The Alliance Witness (1958–63): the editorials he signed “A. W. T.”, the unsigned “Editorial Voice” pieces he wrote as editor, and articles under his name.</p></div>${edHTML}</section>` : ""}`;
   $("#libF").onsubmit = (e) => { e.preventDefault(); S.lib.q = $("#libQ").value; vLibrary(); };
@@ -390,9 +397,11 @@ async function vReader() {
   }
   const kept = L.get("keep", []).filter((k) => k.id === w.id && k.ch === S.rd.ch).map((k) => k.pi);
   const prev = S.rd.ch > 0 ? d.chapters[S.rd.ch - 1] : null, next = S.rd.ch < n - 1 ? d.chapters[S.rd.ch + 1] : null;
+  const tipOn = !L.get("tipSeen", false);
   v.innerHTML = `${rbar(ed ? c.t : w.title)}
-  <article class="box"><div class="doc" id="doc">
-    <div class="label dlabel">${esc(ed ? (c.m || (+c.d.slice(0, 4) >= 1958 ? "The Alliance Witness" : "The Alliance Weekly")) + " · " + fmtDate(c.d) : (c.b ? c.b + " · " : "") + "A. W. Tozer")}</div>
+  ${tipOn ? `<div class="tip" id="tip"><span>Tap any word to see what it means or translate it. Tap a Bible reference to read the verse.</span><button id="tipX">Got it</button></div>` : ""}
+  <article class="box"><div class="prog" aria-hidden="true"><i style="width:${Math.round(((S.rd.ch + 1) / n) * 100)}%"></i></div><div class="doc" id="doc">
+    <div class="label dlabel">${esc(ed ? (c.m || (+c.d.slice(0, 4) >= 1958 ? "The Alliance Witness" : "The Alliance Weekly")) + " · " + fmtDate(c.d) + " · " + (S.rd.ch + 1) + " of " + n : (c.b ? c.b + " · " : "") + "A. W. Tozer · " + (S.rd.ch + 1) + " of " + n)}</div>
     <h2>${esc(c.t)}</h2>
     ${c.p.map((p, i) => { const q = p.startsWith("> "); return `<p data-pi="${i}" class="${q ? "q" : ""}${kept.includes(i) ? " kept" : ""}">${linkRefs(esc(q ? p.slice(2) : p))}</p>`; }).join("")}
     ${ed ? `<p class="src">${c.k === "article" ? "Article by A. W. Tozer." : c.s ? "Signed “A. W. T.”" : "Unsigned editorial, from the page Tozer wrote as editor."} ${c.pg ? `Page ${c.pg} of the issue. ` : ""}Taken from the magazine scan; if a word looks wrong, it may be a scanning error.</p>` : ""}
@@ -400,6 +409,7 @@ async function vReader() {
   <div class="pager">${prev ? `<button id="pPrev"><small>← Previous</small><span>${esc(prev.t)}</span></button>` : "<span></span>"}${next ? `<button id="pNext"><small>Next →</small><span>${esc(next.t)}</span></button>` : "<span></span>"}</div></article>`;
   bindBar(w, d);
   bindText($("#doc"), { id: w.id, ch: S.rd.ch, title: c.t, work: w.title });
+  const tx = $("#tipX"); if (tx) tx.onclick = () => { L.set("tipSeen", true); $("#tip").remove(); };
   if (prev) $("#pPrev").onclick = () => { S.rd.ch--; vReader(); scrollTo(0, 0); };
   if (next) $("#pNext").onclick = () => { S.rd.ch++; vReader(); scrollTo(0, 0); };
   markRead(w.id, S.rd.ch);
@@ -502,8 +512,18 @@ function candidates(raw) {
   return out;
 }
 async function lookup(raw) {
-  for (const c of candidates(raw)) { try { const ch = await dictChunk(c); if (ch[c]) return { ...ch[c], word: c }; } catch (e) {} }
-  return null;
+  const cs = candidates(raw); let first = null;
+  for (const c of cs) {
+    try {
+      const ch = await dictChunk(c);
+      if (!ch[c]) continue;
+      const e = { ...ch[c], word: c };
+      // "has", "loveth", "spake": a bare inflection note is not a meaning, so also look up the base word
+      if (!first) { first = e; if ((!e.n || !e.n.length) && e.w && e.w.length < 90 && cs.length > 1) continue; else if (IRREG[raw.toLowerCase()] || !e.n) { const base = IRREG[raw.toLowerCase()]; if (base && base !== c) { try { const bc = await dictChunk(base); if (bc[base]) return { ...bc[base], word: base, from: raw }; } catch (x) {} } } return e; }
+      return e.n ? e : first;
+    } catch (e) {}
+  }
+  return first;
 }
 async function easton(raw) {
   const k = raw.toLowerCase(), l = /^[a-z]/.test(k) ? k[0] : "_";
@@ -557,10 +577,11 @@ function openSheet(title, bodyHTML, onClose) {
   const close = () => { closeSheet(); onClose && onClose(); };
   $("#scrim").onclick = close; $("#sx").onclick = close;
   document.addEventListener("keydown", escClose);
+  document.body.classList.add("locked");
   $("#sx").focus({ preventScroll: true });
 }
 function escClose(e) { if (e.key === "Escape") closeSheet(); }
-function closeSheet() { $("#sheetRoot").innerHTML = ""; clearHighlight(); document.removeEventListener("keydown", escClose); }
+function closeSheet() { document.body.classList.remove("locked"); $("#sheetRoot").innerHTML = ""; clearHighlight(); document.removeEventListener("keydown", escClose); }
 
 async function openWord(word, ctx) {
   const lang = defaultLang();
@@ -601,8 +622,9 @@ async function openWord(word, ctx) {
   const box = $("#sDef"); if (!box) return;
   if (!e) box.innerHTML = `<span class="label">Meaning</span><p class="long">No entry for “${esc(word)}”. It may be a name, an old spelling, or a scanning error.</p>`;
   else {
-    const senses = (e.n || []).slice(0, 5);
-    box.innerHTML = `<span class="label">Meaning${e.word !== word.toLowerCase() ? ` · from “${esc(e.word)}”` : ""}</span>
+    const verbish = e.from || /(eth|est|ed|ing)$/i.test(word) || Object.prototype.hasOwnProperty.call(IRREG, word.toLowerCase());
+    const senses = (verbish ? [...(e.n || [])].sort((x, y) => (y[0] === "v") - (x[0] === "v")) : (e.n || [])).slice(0, 5);
+    box.innerHTML = `<span class="label">Meaning${e.word !== word.toLowerCase() ? ` · “${esc(word)}” is a form of “${esc(e.word)}”` : ""}</span>
       ${senses.map((s, i) => `<div class="sense"><i>${i + 1}</i><div><em>${posName(s[0])}</em> ${esc(stripEx(s[1]))}${s[2] && s[2].length ? `<div class="syn">Also: ${esc(s[2].join(", "))}</div>` : ""}</div></div>`).join("")}
       ${e.w ? `<details style="margin-top:12px" ${senses.length ? "" : "open"}><summary class="label" style="cursor:pointer">Webster's 1913 · as Tozer's generation knew it</summary><p class="long">${esc(webClean(e.w))}</p></details>` : ""}`;
   }
@@ -632,7 +654,7 @@ async function vBible() {
   const seg = `<div class="seg"><button data-ver="kjv" aria-pressed="${bb.ver === "kjv"}">King James</button><button data-ver="web" aria-pressed="${bb.ver === "web"}">World English</button></div>`;
   if (!bb.book || (!bb.ch && !bb.pick)) {
     v.innerHTML = `<section class="box pad stack" style="gap:14px"><div><h2 class="pageh">Bible</h2><p class="note" style="margin-top:6px">Tozer quoted the King James Version. The World English Bible is a modern public-domain translation.</p></div>${seg}
-      <form class="ctl" id="bgo"><input type="search" id="bref" placeholder="Go to: John 15, Psalm 63:8, Rom 8:28" aria-label="Go to a passage"><button class="btn">Go</button></form></section>
+      <form class="ctl" id="bgo"><input type="search" id="bref" placeholder="Go to: John 15 or Rom 8:28" aria-label="Go to a passage"><button class="btn">Go</button></form></section>
       <section class="box"><div class="sechead"><span class="label">Old Testament</span></div><div class="grid">${B.slice(0, 39).map(([c, n]) => `<button data-bk="${c}">${esc(n)}</button>`).join("")}</div></section>
       <section class="box"><div class="sechead"><span class="label">New Testament</span></div><div class="grid">${B.slice(39).map(([c, n]) => `<button data-bk="${c}">${esc(n)}</button>`).join("")}</div></section>`;
     bindVer();
@@ -699,7 +721,7 @@ function snippet(text, q) {
 async function vSearch() {
   const v = $("#view"), s = S.search;
   v.innerHTML = `<section class="box pad stack" style="gap:14px"><div><h2 class="pageh">Search</h2><p class="note" style="margin-top:6px">Every word Tozer wrote here, or the whole Bible.</p></div>
-    <form class="ctl" id="sf"><input type="search" id="sq" value="${esc(s.q)}" placeholder="the gaze of the soul, worship, self-sins…" aria-label="Search text"><button class="btn primary">Search</button></form>
+    <form class="ctl" id="sf"><input type="search" id="sq" value="${esc(s.q)}" placeholder="worship, the cross, humility…" aria-label="Search text"><button class="btn primary">Search</button></form>
     <div class="seg"><button data-sc="tozer" aria-pressed="${s.scope === "tozer"}">Tozer</button><button data-sc="bible" aria-pressed="${s.scope === "bible"}">Bible (${S.bible.ver.toUpperCase()})</button></div></section>
     <section class="box" id="sres">${s.res ? s.res : `<div class="empty">Try a phrase: “prevenient grace”, “the old cross”, “worship”.</div>`}</section>`;
   $$("[data-sc]").forEach((b) => (b.onclick = () => { s.scope = b.dataset.sc; s.res = null; if (s.q) runSearch(); else vSearch(); }));
@@ -732,7 +754,7 @@ async function vWords() {
   const v = $("#view"), saved = L.get("saved", []), recent = L.get("recent", []), keep = L.get("keep", []), lang = defaultLang();
   v.innerHTML = `
   <section class="box pad stack" style="gap:12px"><div><h2 class="pageh">Words</h2><p class="note" style="margin-top:6px">Look up any word, or translate a passage. Tap a word while reading and it comes here too.</p></div>
-    <form class="ctl" id="wf"><input type="search" id="wq" placeholder="Look up a word: sanctify, numinous, abide…" aria-label="Look up a word"><button class="btn primary">Look up</button></form></section>
+    <form class="ctl" id="wf"><input type="search" id="wq" placeholder="Look up a word…" aria-label="Look up a word"><button class="btn primary">Look up</button></form></section>
   <section class="box pad stack" style="gap:12px"><div class="spread"><span class="label">Translator</span>${langSelect("tLang", lang)}</div>
     <textarea id="tIn" aria-label="Text to translate" placeholder="Paste or type English here"></textarea>
     <div class="row"><button class="btn primary" id="tGo">Translate</button>${SAMPLE ? `<button class="btn" id="tPlain">Plain English</button>` : ""}</div><div id="tOut"></div></section>
