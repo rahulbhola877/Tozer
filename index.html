@@ -357,7 +357,7 @@ async function vLibrary() {
   <section class="box pad"><h2 class="pageh">Library</h2><p class="note" style="margin-top:6px">Everything here is Tozer's own writing and in the public domain in the United States.</p>
     <form class="ctl" id="libF" style="margin-top:14px"><input type="search" id="libQ" placeholder="Filter titles: prayer, worship, the cross…" value="${esc(S.lib.q)}" aria-label="Filter titles"><button class="btn">Filter</button></form></section>
   ${books.length ? `<section class="box"><div class="sechead"><span class="label">Books</span></div>${books.map((w) => { const rd = (p[w.id] || { done: [] }).done.length; return `<button class="lrow" data-open="${w.id}"><span><b>${esc(w.title)}</b><small>${esc(w.year)} · ${w.n} chapters${rd ? ` · ${rd} read` : ""}</small><span class="desc">${esc(w.desc || "")}</span></span><span class="go">Open →</span></button>`; }).join("")}</section>` : ""}
-  ${eds.length ? `<section class="box"><div class="sechead"><span class="label">Editorials · ${total}</span><p class="note" style="margin-top:4px">Signed “A. W. T.” in The Alliance Weekly (1950–57) and The Alliance Witness (1958–63), while Tozer was editor.</p></div>${edHTML}</section>` : ""}`;
+  ${eds.length ? `<section class="box"><div class="sechead"><span class="label">Editorials · ${total}</span><p class="note" style="margin-top:4px">Written while Tozer edited The Alliance Weekly (1950–57) and The Alliance Witness (1958–63): the editorials he signed “A. W. T.”, the unsigned “Editorial Voice” pieces he wrote as editor, and articles under his name.</p></div>${edHTML}</section>` : ""}`;
   $("#libF").onsubmit = (e) => { e.preventDefault(); S.lib.q = $("#libQ").value; vLibrary(); };
   $("#libQ").oninput = (e) => { if (!e.target.value) { S.lib.q = ""; vLibrary(); } };
   $$("[data-y]").forEach((b) => (b.onclick = () => { S.lib.year = S.lib.year === b.dataset.y ? null : b.dataset.y; vLibrary(); }));
@@ -395,7 +395,7 @@ async function vReader() {
     <div class="label dlabel">${esc(ed ? (c.m || (+c.d.slice(0, 4) >= 1958 ? "The Alliance Witness" : "The Alliance Weekly")) + " · " + fmtDate(c.d) : (c.b ? c.b + " · " : "") + "A. W. Tozer")}</div>
     <h2>${esc(c.t)}</h2>
     ${c.p.map((p, i) => { const q = p.startsWith("> "); return `<p data-pi="${i}" class="${q ? "q" : ""}${kept.includes(i) ? " kept" : ""}">${linkRefs(esc(q ? p.slice(2) : p))}</p>`; }).join("")}
-    ${ed ? `<p class="src">Signed “A. W. T.” ${c.pg ? `Page ${c.pg} of the issue. ` : ""}Text taken from the magazine scan; if a word looks wrong, it may be a scanning error.</p>` : ""}
+    ${ed ? `<p class="src">${c.k === "article" ? "Article by A. W. Tozer." : c.s ? "Signed “A. W. T.”" : "Unsigned editorial, from the page Tozer wrote as editor."} ${c.pg ? `Page ${c.pg} of the issue. ` : ""}Taken from the magazine scan; if a word looks wrong, it may be a scanning error.</p>` : ""}
   </div>
   <div class="pager">${prev ? `<button id="pPrev"><small>← Previous</small><span>${esc(prev.t)}</span></button>` : "<span></span>"}${next ? `<button id="pNext"><small>Next →</small><span>${esc(next.t)}</span></button>` : "<span></span>"}</div></article>`;
   bindBar(w, d);
@@ -754,7 +754,7 @@ async function vWords() {
 }
 
 /* ============ footer + start ============ */
-$("#foot").innerHTML = `Tozer's writings here are public domain in the United States: <i>The Pursuit of God</i> (1948) and his signed editorials in <i>The Alliance Weekly</i> and <i>The Alliance Witness</i> (1950–63), neither renewed. Bible: King James Version and World English Bible. Dictionary: Webster's Unabridged (1913), WordNet 3.1 (Princeton University), Easton's Bible Dictionary (1897). Your saved words and marks stay in this browser.`;
+$("#foot").innerHTML = `Tozer's writings here are public domain in the United States: <i>The Pursuit of God</i> (1948, not renewed), <i>Paths to Power</i> (no year in its copyright notice), and his editorials and articles in <i>The Alliance Weekly</i> and <i>The Alliance Witness</i> (1950–63, not renewed). Bible: King James Version and World English Bible. Dictionary: Webster's Unabridged (1913), WordNet 3.1 (Princeton University), Easton's Bible Dictionary (1897). Your saved words and marks stay in this browser.`;
 render();
 
 </script>

@@ -87,3 +87,19 @@ export const fixText2 = (s) => fixText(joinSplits(s.replace(/\biii\b/g, "in"))).
   const n = nearest(core); return n ? m[1] + n + m[3] : t;
 }).join("");
 export const _dbg = () => ({ freq: FREQ.size, lens: [...BYLEN.keys()].length, your: FREQ.get("your") });
+
+/* ---- drop caps: the first letter of an article is often an ornament read as "~" or lost ---- */
+const PREF = "TWIASOBMNHPDCF";
+export function fixDropCap(p) {
+  const junked = /^[~*]/.test(p);
+  const s = p.replace(/^[~*.,\-\s'"‘“]{1,4}(?=[A-Za-z])/, (m) => (/["“‘]/.test(m) ? m : ""));
+  const m = s.match(/^([A-Za-z]{1,3})(\s+)([A-Za-z]+)/); if (!m) return s;
+  const first = m[1];
+  if (!junked) { if (known(first) && first.length > 1 && !/^[A-Z]{1,2}$/.test(first)) return s; if (known(first.toLowerCase()) && first.length > 2) return s; }
+  const cands = [];
+  for (const L of PREF) { const w = (L + first).toLowerCase(); if (known(w) && w.length >= 2 && (w.length > 2 || SMALL.has(w) || 'we he me be'.includes(w)) && ((typeof FREQ !== 'undefined' && FREQ.get(w)) || 0) >= 30) cands.push([w, (typeof FREQ !== "undefined" && FREQ.get(w)) || 0, PREF.indexOf(L)]); }
+  if (!cands.length) return s;
+  cands.sort((a, b) => a[2] - b[2] || b[1] - a[1]);
+  const w = cands[0][0], keepCase = first === first.toUpperCase() && m[3] === m[3].toUpperCase();
+  return (keepCase ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1)) + s.slice(first.length);
+}

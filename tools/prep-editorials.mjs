@@ -3,7 +3,8 @@
 // Keeps: (1) editorial-page pieces signed "A. W. T.", (2) unsigned editorial-page pieces from
 // 3 June 1950 (Tozer's first issue as editor) on, (3) articles bylined "A. W. Tozer".
 import fs from "node:fs";
-import { known, fixText2 as fixText } from "./ocr.mjs";
+const OVR = JSON.parse(fs.readFileSync("tools/overrides.json", "utf8"));
+import { known, fixText2 as fixText, fixDropCap } from "./ocr.mjs";
 
 const EDITOR_FROM = "1950-06-03";
 const files = fs.readdirSync("raw/chunks").filter((f) => f.endsWith(".json"));
@@ -63,9 +64,41 @@ function okText(paras) {
   const toks = paras.join(" ").split(/\s+/).map((w) => w.replace(/[^A-Za-z’']/g, "")).filter((w) => w.length > 2);
   return toks.filter((w) => known(w)).length / Math.max(1, toks.length);
 }
-function titleOK(t) { const w = t.split(/\s+/).filter((x) => /[A-Za-z]/.test(x)); return w.length && w.filter((x) => known(x.replace(/[^A-Za-z’']/g, "")) || /^[A-Z][a-z]+$/.test(x)).length / w.length >= 0.75 && letters(t).length >= 4; }
+const ADS = /Quotes from (Our Contemporaries|the Fathers)|Treasures Old|Local Conventions|Missionary (Lessons|Treasury)|Righteous|Flannelgraph|Bulletin|Cole and s|Pocket|Herd Bangles|Address Inquiries/i;
+function tidyTitle(t) {
+  t = t.replace(/^[^A-Za-z“"']+/, "").replace(/\s*[-—–·]+\s*(?:[IVX]+\s*[-—–]*)?$/, (m) => { const r = m.match(/([IVX]+)/); return r ? ` (Part ${r[1]})` : ""; });
+  t = t.replace(/^(.*\S)\s+(The|A)$/, "$2 $1").replace(/\s+/g, " ").trim();
+  return t;
+}
+function titleOK(t) {
+  if (/\d|[#<>{}|\\]/.test(t)) return false; const w = t.split(/\s+/).filter((x) => /[A-Za-z]/.test(x)); return w.length && w.filter((x) => known(x.replace(/[^A-Za-z’']/g, "")) || /^[A-Z][a-z]+$/.test(x)).length / w.length >= 0.75 && letters(t).length >= 4; }
+function cleanParas(e) {
+  // drop captions, hymn lines and page furniture that share the column with the text
+  e.p = e.p.filter((x, i) => {
+    const w = x.split(/\s+/), r = okText([x]);
+    if (w.length < 6 && !/[.!?”"]$/.test(x) && e.p.length > 4) return false;
+    if (w.length < 25 && r < 0.75) return false;
+    if (/^(Reprinted|Copyright|Printed in|Photo|\(?Continued)/i.test(x)) return false;
+    return true;
+  });
+  // runs of very short paragraphs are hymn verses or column debris: keep clean ones as a quoted verse
+  { const g = []; let run = [];
+    const flush = () => { if (run.length >= 3) { if (okText(run) >= 0.9) g.push("> " + run.join("\n")); } else g.push(...run); run = []; };
+    for (const x of e.p) { if (x.split(/\s+/).length < 14 && !x.startsWith("> ")) run.push(x); else { flush(); g.push(x); } }
+    flush(); e.p = g; }
+}
 function push(e, date, pg) {
-  if (!titleOK(e.t)) { const f = e.p[0].replace(/^[“"]/, "").split(/(?<=[.!?])\s/)[0].split(" ").slice(0, 7).join(" ").replace(/[,;:.]$/, ""); e.t = f + "…"; e.untitled = true; }
+  e.p[0] = fixDropCap(e.p[0]);
+  for (const o of OVR) if (o.d === date && (e.t + " " + e.p[0].slice(0, 120)).toLowerCase().includes(o.match.toLowerCase())) {
+    if (o.find) e.p[0] = e.p[0].replace(new RegExp(o.find), o.replace);
+    if (o.title) { e.t = o.title; e.fixed = true; }
+  }
+  e.p = e.p.map((x) => x.replace(/\s*\([^)]*(Photo|photo|Press)[^)]*\)\s*$/, "").trim()).filter(Boolean);
+  e.t = tidyTitle(e.t);
+  cleanParas(e);
+  if (!e.p.length) return;
+  if (ADS.test(e.t) || ADS.test(e.p[0].slice(0, 200))) { DROP.push(`${date} p${pg} ad :: ${e.t}`); return; }
+  if (!e.fixed && !titleOK(e.t)) { const f = e.p[0].replace(/^[“"]/, "").split(/(?<=[.!?])\s/)[0].split(" ").slice(0, 7).join(" ").replace(/[,;:.]$/, ""); e.t = f + "…"; e.untitled = true; }
   const words = e.p.join(" ").split(/\s+/).length;
   if (words < (e.kind === "article" ? 250 : 120)) { DROP.push(`${date} p${pg} short ${words} :: ${e.t}`); return; }
   const q = okText(e.p);
@@ -140,7 +173,7 @@ for (const e of out.filter((x) => x.kind === "article")) {
       // a paragraph broken across the page turn continues without an indent
       if (!/[.!?”"’)]$/.test(e.p[e.p.length - 1]) && /^[a-z]/.test(more[0])) e.p[e.p.length - 1] += " " + more.shift();
       else if (e.p[e.p.length - 1].endsWith("-")) e.p[e.p.length - 1] = e.p[e.p.length - 1].slice(0, -1) + more.shift();
-      e.p.push(...more); e.words = e.p.join(" ").split(/\s+/).length; e.merged = true;
+      e.p.push(...more); e.merged = true; cleanParas(e); e.words = e.p.join(" ").split(/\s+/).length;
     }
   }
 }

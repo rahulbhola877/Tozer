@@ -1,0 +1,14 @@
+[
+ {"d":"1950-08-12","match":"unclean","title":"When Philip Preached at Samaria","find":"^\\W*[A-Z]?HEN Philip","replace":"When Philip"},
+ {"d":"1950-11-25","match":"Pursuit of God appeared","title":"When The Pursuit of God Appeared","find":"^HEN ","replace":"When "},
+ {"d":"1950-09-09","match":"reaping","title":"Reaping the Results of Bad Religious Philosophy","find":"^\\W*T?E ARE","replace":"We are"},
+ {"d":"1954-09-08","match":"TEXT","title":"My Text Is the Last Part of…","find":"^\\W*[WM]Y TEXT","replace":"My text"},
+ {"d":"1954-06-16","match":"great deal","find":"^Ta great","replace":"A great"},
+ {"d":"1956-01-11","match":"Recical","title":"Personal Revival"},
+ {"d":"1956-01-18","match":"Prayer Is Not Enough","title":"Prayer Is Not Enough"},
+ {"d":"1956-01-25","match":"Hace","title":"How to Have a Personal Revival"},
+ {"d":"1958-06-18","match":"Classification","title":"Classification Is One of the Most Difficult…"},
+ {"d":"1957-10-16","match":"early days of Methodism","title":"Those Amazing Methodists (Part 5)"},
+ {"d":"1957-11-20","match":"WESLEY","title":"Those Amazing Methodists (Part 6)"},
+ {"d":"1958-10-22","match":"eniergencies","title":"In View of the Emergencies Facing the Alliance…"}
+]
