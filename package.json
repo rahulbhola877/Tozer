@@ -1,0 +1,15 @@
+{
+  "name": "tozer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tozer: a reader for the public-domain writings of A. W. Tozer, with the Bible, a dictionary and a translator.",
+  "type": "module",
+  "scripts": { "build": "node build.mjs" },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "world-english-bible": "1.0.1",
+    "kjv": "1.0.0",
+    "websters-english-dictionary": "2.0.0",
+    "wordnet-db": "3.1.14"
+  }
+}
