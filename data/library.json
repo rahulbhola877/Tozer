@@ -1,1 +1,106 @@
-[{"id":"pursuit-of-god","kind":"book","title":"The Pursuit of God","year":1948,"desc":"His best-loved book, written, the story goes, on an overnight train to Texas: ten chapters on longing for God, possessing nothing, and hearing the speaking voice. With Samuel Zwemer's introduction."}]
+[
+ {
+  "id": "pursuit-of-god",
+  "kind": "book",
+  "title": "The Pursuit of God",
+  "year": 1948,
+  "desc": "His best-loved book, written, the story goes, on an overnight train to Texas: ten chapters on longing for God, possessing nothing, and hearing the speaking voice. With Samuel Zwemer's introduction."
+ },
+ {
+  "id": "paths-to-power",
+  "kind": "book",
+  "title": "Paths to Power",
+  "year": 1940,
+  "desc": "Seven short chapters on the Holy Spirit's power in the church: God's part and man's, obedience, the fallow ground, and unity before revival. From a Christian Publications printing whose notice carries no year; scanned text, lightly corrected."
+ },
+ {
+  "id": "editorials-1949",
+  "kind": "editorials",
+  "title": "Editorials, 1949",
+  "year": "1949"
+ },
+ {
+  "id": "editorials-1950",
+  "kind": "editorials",
+  "title": "Editorials, 1950",
+  "year": "1950"
+ },
+ {
+  "id": "editorials-1951",
+  "kind": "editorials",
+  "title": "Editorials, 1951",
+  "year": "1951"
+ },
+ {
+  "id": "editorials-1952",
+  "kind": "editorials",
+  "title": "Editorials, 1952",
+  "year": "1952"
+ },
+ {
+  "id": "editorials-1953",
+  "kind": "editorials",
+  "title": "Editorials, 1953",
+  "year": "1953"
+ },
+ {
+  "id": "editorials-1954",
+  "kind": "editorials",
+  "title": "Editorials, 1954",
+  "year": "1954"
+ },
+ {
+  "id": "editorials-1955",
+  "kind": "editorials",
+  "title": "Editorials, 1955",
+  "year": "1955"
+ },
+ {
+  "id": "editorials-1956",
+  "kind": "editorials",
+  "title": "Editorials, 1956",
+  "year": "1956"
+ },
+ {
+  "id": "editorials-1957",
+  "kind": "editorials",
+  "title": "Editorials, 1957",
+  "year": "1957"
+ },
+ {
+  "id": "editorials-1958",
+  "kind": "editorials",
+  "title": "Editorials, 1958",
+  "year": "1958"
+ },
+ {
+  "id": "editorials-1959",
+  "kind": "editorials",
+  "title": "Editorials, 1959",
+  "year": "1959"
+ },
+ {
+  "id": "editorials-1960",
+  "kind": "editorials",
+  "title": "Editorials, 1960",
+  "year": "1960"
+ },
+ {
+  "id": "editorials-1961",
+  "kind": "editorials",
+  "title": "Editorials, 1961",
+  "year": "1961"
+ },
+ {
+  "id": "editorials-1962",
+  "kind": "editorials",
+  "title": "Editorials, 1962",
+  "year": "1962"
+ },
+ {
+  "id": "editorials-1963",
+  "kind": "editorials",
+  "title": "Editorials, 1963",
+  "year": "1963"
+ }
+]
